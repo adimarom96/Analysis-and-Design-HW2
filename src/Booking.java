@@ -12,7 +12,7 @@ public class Booking implements  ITestable{
     public Booking(Date a_date, Room a_room){
         date = a_date;
         room = a_room;
-        services = new ArrayList<HotelService>();
+        services = new ArrayList<>();
     }
 
     public void addService(HotelService s){
@@ -53,6 +53,7 @@ public class Booking implements  ITestable{
 
     @Override
     public boolean checkConstraints() {
+        // constraint 3
         return this.reservation.getReservationSet().getHotel() == this.getRoom().getHotel();
     }
 

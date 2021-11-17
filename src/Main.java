@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        //test constraint 1
+        //test constraint 1 - no more than 2 hotels from the same group in 1 city - implemented in group
         Model m1 = new Model();
         Group g = new Group(1);
         Hotel h1 = new Hotel("Haifa", "Dan Panorama", 4);
@@ -13,12 +13,11 @@ public class Main {
         m1.create_link_group_hotel(h1, g);
         m1.create_link_group_hotel(h2, g);
 
-        System.out.println("const 1 : need True:" + m1.checkModelConstraints()); // should print false
+        System.out.println("Constraint 1: need True: " + m1.checkModelConstraints()); // should print False
         m1.create_link_group_hotel(h3, g);
-        System.out.println("const 1 : need false:" + m1.checkModelConstraints());
+        System.out.println("Constraint 1: need False: " + m1.checkModelConstraints());
 
-        //test constraint 2
-        // create 5 res for client and check if he got at least 1 vip room - implemented in client
+        //test constraint 2- create 5 res for client and check if he got at least 1 vip room - implemented in client
         m1 = new Model();
         h1 = new Hotel("Haifa", "Dan Panorama", 4);
         Client c1 = new Client(1, 20, "adi", "Haifa");
@@ -43,7 +42,6 @@ public class Main {
         m1.addObjectToModel(res5);
 
         m1.create_link_client_hotel_reservationSet(c1, h1, reservationSet);
-
         m1.create_link_reservationSet_reservation(reservationSet, res1);
         m1.create_link_reservation_roomCategory(res1, roomCategory);
         m1.create_link_reservationSet_reservation(reservationSet, res2);
@@ -52,19 +50,15 @@ public class Main {
         m1.create_link_reservation_roomCategory(res3, roomCategory);
         m1.create_link_reservationSet_reservation(reservationSet, res4);
         m1.create_link_reservation_roomCategory(res4, roomCategory);
-
-
         m1.create_link_hotel_room(r1, h1);
         m1.create_link_room_roomCategory(r1, roomCategory);
 
-        System.out.println("const 2 : need True:" + m1.checkModelConstraints());
+        System.out.println("Constraint 2: need True: " + m1.checkModelConstraints());
         m1.create_link_reservationSet_reservation(reservationSet, res5);
         m1.create_link_reservation_roomCategory(res5, roomCategory);
-        System.out.println("const 2 : need False:" + m1.checkModelConstraints());
+        System.out.println("Constraint 2: need False: " + m1.checkModelConstraints());
 
-
-        //test constraint 3
-        // connect booking to hotel 1 and reservation to hotel 2 - they should have the same hotel
+        //test constraint 3 - connect booking to hotel 1 and reservation to hotel 2 - they should have the same hotel - implemented in Booking
         m1 = new Model();
         h1 = new Hotel("Haifa", "Dan Panorama", 4);
         c1 = new Client(1, 20, "adi", "Haifa");
@@ -73,7 +67,6 @@ public class Main {
         reservationSet = new ReservationSet();
         res1 = new Reservation(Model.getDateFromString("26-12-2019"), Model.getDateFromString("25-12-2019"), 100);
         Booking b1 = new Booking(Model.getDateFromString("21-12-2019"), r1);
-
         h2 = new Hotel("aa", "bb", 123);
 
         m1.addObjectToModel(h1);
@@ -86,20 +79,17 @@ public class Main {
         m1.addObjectToModel(res1);
 
         m1.create_link_client_hotel_reservationSet(c1, h2, reservationSet);
-
         m1.create_link_reservationSet_reservation(reservationSet, res1);
         m1.create_link_reservation_roomCategory(res1, roomCategory);
-
         m1.create_link_reservation_booking(b1, res1);
         m1.create_link_room_Booking(r1, b1);
-
         m1.create_link_hotel_room(r1, h1);
         m1.create_link_room_roomCategory(r1, roomCategory);
 
-        System.out.println("const 3 : need false:" + m1.checkModelConstraints());
+        System.out.println("Constraint 3: need False: " + m1.checkModelConstraints());
 
 
-        //const 4
+        //Constraint 4 - hotels in the same group have the same services - implemented in Group
         m1 = new Model();
         h1 = new Hotel("Haifa", "Dan Panorama", 4);
         h2 = new Hotel("aa", "bb", 123);
@@ -124,7 +114,6 @@ public class Main {
         m1.addObjectToModel(hotelService3);
         m1.addObjectToModel(hotelService4);
         m1.addObjectToModel(hotelService);
-
         m1.addObjectToModel(s1);
         m1.addObjectToModel(s2);
         m1.addObjectToModel(s3);
@@ -137,12 +126,12 @@ public class Main {
         m1.create_link_hotel_service_hotelService(h2, s1, hotelService3);
         m1.create_link_hotel_service_hotelService(h2, s2, hotelService4);
 
-        System.out.println("const 4 : need True:" + m1.checkModelConstraints());
+        System.out.println("Constraint 4: need True: " + m1.checkModelConstraints());
 
         m1.create_link_hotel_service_hotelService(h1, s3, hotelService2);
-        System.out.println("const 4 : need false:" + m1.checkModelConstraints());
+        System.out.println("Constraint 4: need False: " + m1.checkModelConstraints());
 
-        // const 6 creating 3 rooms with diffrent type, check that less thean 10% are vips -> implmented in hotel
+        // Constraint 6 - creating 3 rooms with different type, check that less then 10% are vips -> implemented in hotel
 
         m1 = new Model();
         h1 = new Hotel("Haifa", "Dan Panorama", 4);
@@ -164,11 +153,10 @@ public class Main {
         m1.create_link_hotel_room(r2, h1);
         m1.create_link_room_roomCategory(r1, roomCategory);
         m1.create_link_room_roomCategory(r2, roomCategory2);
-        System.out.println("const 6 : need True: " + m1.checkModelConstraints());
+        System.out.println("Constraint 6: need True: " + m1.checkModelConstraints());
         m1.create_link_room_roomCategory(r3, roomCategory3);
         m1.create_link_hotel_room(r3, h1);
-        System.out.println("const 6 : need False: " + m1.checkModelConstraints());
-
+        System.out.println("Constraint 6: need False: " + m1.checkModelConstraints());
 
     }
 }
