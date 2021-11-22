@@ -54,7 +54,9 @@ public class Booking implements  ITestable{
     @Override
     public boolean checkConstraints() {
         // constraint 3
-        return this.reservation.getReservationSet().getHotel() == this.getRoom().getHotel();
+        boolean b= this.reservation.getReservationSet().getHotel() == this.getRoom().getHotel();
+        return b;
+
     }
 
     public static boolean checkAllIntancesConstraints(Model model){

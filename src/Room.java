@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -39,6 +40,20 @@ public class Room implements  ITestable{
 
     @Override
     public boolean checkConstraints() {
+        //const 5
+        if(this.getRoomCategory().getType()== RoomCategory.RoomType.VIP){
+            for (Date d:bookings.keySet()
+                 ) {
+               Booking b= bookings.get(d);
+               ArrayList<HotelService> hotelserv=  b.getServices();
+                for (HotelService s:hotelserv
+                     ) {
+                    Service x = s.getService();
+                    if(!(x instanceof VipService))
+                        return false;
+                }
+            }
+        }
         return true;
     }
 
