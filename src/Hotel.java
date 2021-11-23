@@ -111,7 +111,7 @@ public class Hotel implements ITestable {
 
             }
             avg = avg / counter;
-            if (avg < 7.5)
+            if (avg <= 7.5)
                 return false;
         }
         return true;

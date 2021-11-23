@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class Booking implements  ITestable{
@@ -54,9 +55,32 @@ public class Booking implements  ITestable{
     @Override
     public boolean checkConstraints() {
         // constraint 3
-        boolean b= this.reservation.getReservationSet().getHotel() == this.getRoom().getHotel();
-        return b;
+        if (this.reservation.getReservationSet().getHotel() == this.getRoom().getHotel())
+            if(const8())
+                return true;
+        return false;
 
+    }
+    private boolean const8(){
+        HashMap< RoomCategory.RoomType,Integer> hashMap= new HashMap<>();
+        hashMap.put(RoomCategory.RoomType.BASIC,1);
+        hashMap.put(RoomCategory.RoomType.SUITE,2);
+        hashMap.put(RoomCategory.RoomType.VIP,3);
+        if(this.reservation != null && this.room !=null ) {
+            RoomCategory roomCategory = reservation.getRoomCategory();
+            if(roomCategory==null)
+                return false;
+            RoomCategory.RoomType roomType1 = roomCategory.getType();
+            Room room = this.getRoom();
+            RoomCategory.RoomType roomType2 = room.getRoomCategory().getType();
+            int room1 = hashMap.get(roomType1);
+            int room2 = hashMap.get(roomType2);
+            if(room1<=room2) {
+                return true;
+            }
+
+        }
+        return false;
     }
 
     public static boolean checkAllIntancesConstraints(Model model){

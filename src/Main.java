@@ -249,30 +249,37 @@ public class Main {
 
         //Constraint  8 רמת החדר שהושם בפועל עבור אורח, יכולה להיות בקטגוריה שהוזמנה או גבוהה יותר
 
-/*
         m1 = new Model();
-        client1 = new Client(1, 20, " Dolev ", " Tel Aviv");
+        client1 = new Client(1, 26, " Dolev ", " Tel Aviv");
         hotel1 = new Hotel("Las Vegas", " Paris ", 5);
         room1 = new Room(404);
         reservationSet1 = new ReservationSet();
         orDate = Model.getDateFromString(" 25-12-2019");
         reqDate = Model.getDateFromString(" 01-01-2020 ");
         reservation1 = new Reservation(orDate, reqDate, 100);
+        RoomCategory roomVIP = new RoomCategory(200, RoomCategory.RoomType.BASIC);
+        RoomCategory roomREG = new RoomCategory(200, RoomCategory.RoomType.VIP);
+        b1 = new Booking(orDate,room1);
 
-        roomCategory1 = new RoomCategory(200, RoomCategory.RoomType.BASIC);
         m1.addObjectToModel(client1);
         m1.addObjectToModel(hotel1);
         m1.addObjectToModel(reservationSet1);
         m1.addObjectToModel(reservation1);
         m1.addObjectToModel(room1);
+        m1.addObjectToModel(roomVIP);
+        m1.addObjectToModel(roomREG);
+        m1.addObjectToModel(b1);
 
-        m1.create_link_client_hotel_reservationSet(client1, hotel1, reservationSet1);
-        m1.create_link_reservationSet_reservation(reservationSet1, reservation1);
-        m1.create_link_reservation_roomCategory(reservation1, roomCategory1);
-        m1.create_link_hotel_room(room1, hotel1);
-        m1.create_link_room_roomCategory(room1, roomCategory1);
+        m1.create_link_client_hotel_reservationSet(client1,hotel1,reservationSet1);
+        m1.create_link_reservationSet_reservation(reservationSet1,reservation1);
+        m1.create_link_reservation_booking(b1,reservation1);
+        m1.create_link_hotel_room(room1,hotel1);
 
-        System.out.println("Constraint 8: need False: " + m1.checkModelConstraints());*/
+        m1.create_link_reservation_roomCategory(reservation1,roomREG);
+        m1.create_link_room_roomCategory(room1,roomVIP);
+        m1.create_link_room_Booking(room1,b1);
+
+        System.out.println("Constraint 8: need false : " + m1.checkModelConstraints());
 
 
         //Constraint  .9 לקוח שהזמין שירות מסוג VIP מחויב למלא ביקורת על המלון.
@@ -285,7 +292,7 @@ public class Main {
         b1 = new Booking(Model.getDateFromString("21-12-2019"), r1);
         hotelService = new HotelService(5, 5);
         VipService vipService1 = new VipService("3");
-        roomCategory1 = new RoomCategory(200, RoomCategory.RoomType.VIP);
+        roomCategory1 = new RoomCategory(200, RoomCategory.RoomType.BASIC);
 
         m1.addObjectToModel(client1);
         m1.addObjectToModel(hotel1);
@@ -298,6 +305,7 @@ public class Main {
         m1.addObjectToModel(roomCategory1);
 
         m1.create_link_reservationSet_reservation(reservationSet1, reservation1);
+        m1.create_link_reservation_roomCategory(reservation1,roomCategory1);
         m1.create_link_client_hotel_reservationSet(client1, hotel1, reservationSet1);
         m1.create_link_hotel_service_hotelService(hotel1, vipService1, hotelService);
         m1.create_link_hotel_room(r1, hotel1);
@@ -335,6 +343,7 @@ public class Main {
         m1.addObjectToModel(roomCategory1);
 
         m1.create_link_reservationSet_reservation(reservationSet1, reservation1);
+        m1.create_link_reservation_roomCategory(reservation1,roomCategory1);
         m1.create_link_client_hotel_reservationSet(client1, hotel1, reservationSet1);
         m1.create_link_hotel_service_hotelService(hotel1, vipService1, hotelService);
         m1.create_link_hotel_room(r1, hotel1);
@@ -345,6 +354,26 @@ public class Main {
         rev = new Review(5, "very good", Model.getDateFromString("21-12-2019"));
         m1.addObjectToModel(rev);
         m1.create_link_booking_review(b1, rev);
+
+        Room room2 = new Room(3123);
+        Review rev2 =new Review(10, "very good", Model.getDateFromString("21-12-2019"));
+        Booking b2 = new Booking(Model.getDateFromString("21-10-2019"), room2);
+        Reservation reservation2 = new Reservation(orDate,reqDate,156);
+
+        m1.addObjectToModel(room2);
+        m1.addObjectToModel(rev2);
+        m1.addObjectToModel(b2);
+        m1.addObjectToModel(reservation2);
+
+        m1.create_link_hotel_room(room2,hotel1);
+        m1.create_link_room_roomCategory(room2,roomCategory1);
+        m1.create_link_room_Booking(room2,b2);
+        m1.create_link_reservation_roomCategory(reservation2,roomCategory1);
+        m1.create_link_reservation_booking(b2,reservation2);
+        m1.create_link_reservationSet_reservation(reservationSet1,reservation2);
+        m1.create_link_booking_review(b2,rev2);
+
+
         //todo : need to check with couple of review
         System.out.println("Constraint 10: need False: " + m1.checkModelConstraints());
 
@@ -379,10 +408,10 @@ public class Main {
         Hotel hotel2 = new Hotel("Las Vegas", " Paris ", 5);
         reservationSet1 = new ReservationSet();
         reservation1 = new Reservation(orDate, reqDate, 100);
-        Reservation reservation2 = new Reservation(orDate, reqDate, 101);
+         reservation2 = new Reservation(orDate, reqDate, 101);
         r1 = new Room(12);
         b1 = new Booking(Model.getDateFromString("21-12-2019"), r1);
-        Booking b2 = new Booking(Model.getDateFromString("21-12-2020"), r1);
+         b2 = new Booking(Model.getDateFromString("21-12-2020"), r1);
         hotelService = new HotelService(5, 5);
         hotelService2 = new HotelService(4, 5);
         RegularService regularService1 = new RegularService("43");
