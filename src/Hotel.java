@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class Hotel implements ITestable {
     private String name;
@@ -69,7 +66,7 @@ public class Hotel implements ITestable {
     @Override
     public boolean checkConstraints() {
         //constrint 6
-        /*double all = rooms.keySet().size(); //todo: לבטל השחרה
+        double all = rooms.keySet().size(); //todo: לבטל השחרה
         double vips = 0;
         for (Integer num: rooms.keySet()
              ) {
@@ -77,7 +74,7 @@ public class Hotel implements ITestable {
                 vips++;
         }
         if((vips/all)>0.1)
-            return false;*/
+            return false;
 
         //const 7
         if (this.city.toLowerCase().equals("las vegas"))
@@ -139,7 +136,11 @@ public class Hotel implements ITestable {
             int price = hotelService.getPrice();
             for (Booking b : givenServices
             ) {
-                year = b.getDate().getYear();
+                //year = b.getDate().getYear();
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime( b.getDate());
+                year = calendar.get(Calendar.YEAR);
+
                 if (price_year.containsKey(year)) {
                     price_year.put(year, price_year.get(year) + price);
                 } else {
