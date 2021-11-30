@@ -6,8 +6,6 @@ import java.util.HashSet;
 public class Model {
     HashSet<ITestable> allObjects;
 
-
-
     public Model(){
         allObjects = new HashSet<ITestable>();
     }

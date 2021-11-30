@@ -55,12 +55,15 @@ public class Booking implements  ITestable{
     @Override
     public boolean checkConstraints() {
         // constraint 3
-        if (this.reservation.getReservationSet().getHotel() == this.getRoom().getHotel())
-            if(const8())
-                return true;
+        if(const3()&&const8()&&const9())
+            return true;
         return false;
 
     }
+    private boolean const3(){
+        return  (this.reservation.getReservationSet().getHotel() == this.getRoom().getHotel());
+    }
+
     private boolean const8(){
         HashMap< RoomCategory.RoomType,Integer> hashMap= new HashMap<>();
         hashMap.put(RoomCategory.RoomType.BASIC,1);
@@ -82,8 +85,28 @@ public class Booking implements  ITestable{
         }
         return false;
     }
+    private  boolean const9(){
+        for (HotelService hs:this.getServices()
+        ) {
+            Service service = hs.getService();
+            if (service instanceof VipService) {
+                if(this.review == null)
+                    return false;
+            }
+        }
+
+        return true;
+    }
 
     public static boolean checkAllIntancesConstraints(Model model){
+        for (Booking b:model.BookingAllInstances()
+             ) {
+            b.checkConstraints();
+//            for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+//                System.out.println(ste);
+//            }
+
+        }
         return true;
     }
 }

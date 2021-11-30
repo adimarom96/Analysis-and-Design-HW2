@@ -43,6 +43,8 @@ public class Client implements ITestable {
 
     @Override
     public boolean checkConstraints() {
+
+        //const 2
         for (Hotel h : reservationsHistory.keySet()
         ) {
             ReservationSet r = reservationsHistory.get(h);
@@ -50,17 +52,15 @@ public class Client implements ITestable {
                 for (Reservation res : r.getReservations()
                 ) {
                     if (res.getRoomCategory().getType() == RoomCategory.RoomType.VIP) {
-                        if(constrain9())
+                       // if(constrain9())
                             return true;
                     }
                 }
             }
             else
-            if(constrain9())
+            //if(constrain9())
                 return true;
         }
-
-
         return false;
     }
     //constraint 9
@@ -77,10 +77,8 @@ public class Client implements ITestable {
                         Booking b = res.getBookings();
                         if (b.getReview() == null)
                             return false;
-
                     }
                 }
-
             }
             return true;
 
@@ -88,6 +86,11 @@ public class Client implements ITestable {
         return false;
     }
     public static boolean checkAllIntancesConstraints(Model model) {
+        for (Client c :model.ClientAllInstances()
+        ) {
+            c.checkConstraints();
+
+        }
         return true;
     }
 }

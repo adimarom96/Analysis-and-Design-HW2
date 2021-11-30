@@ -20,6 +20,14 @@ public class Hotel implements ITestable {
     }
 
     public static boolean checkAllIntancesConstraints(Model model) {
+        for (Hotel c :model.HotelAllInstances()
+        ) {
+            c.checkConstraints();
+//            for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+//                //System.out.println(ste);
+//            }
+
+        }
         return true;
     }
 
@@ -63,18 +71,35 @@ public class Hotel implements ITestable {
         return rate;
     }
 
+    private boolean const6(){
+        ArrayList<Room> vipRooms = new ArrayList<>();
+        float count=0;
+        if(this.rooms.size() == 0){
+            return true;
+        }
+        for (Room room: this.rooms.values()
+        ) {
+            if (room.getRoomCategory().getType() == RoomCategory.RoomType.VIP){
+                count++;
+            }
+        }
+        if(100*(count / this.rooms.size()) <= 10)
+            return true;
+        return false;
+
+    }
     @Override
     public boolean checkConstraints() {
         //constrint 6
-        double all = rooms.keySet().size(); //todo: לבטל השחרה
-        double vips = 0;
+       /* float all = rooms.keySet().size(); //todo: לבטל השחרה
+        float vips = 0;
         for (Integer num: rooms.keySet()
              ) {
             if(rooms.get(num).getRoomCategory().getType() == RoomCategory.RoomType.VIP)
                 vips++;
         }
-        if((vips/all)>0.1)
-            return false;
+        if(100*((float)(vips/all))>10)
+            return false;*/
 
         //const 7
         if (this.city.toLowerCase().equals("las vegas"))
@@ -85,7 +110,7 @@ public class Hotel implements ITestable {
                     return false;
             }
 
-        if (const10() && const11() && const12()&&const13())
+        if (const6()&&const10() && const11() && const12()&&const13())
             return true;
         return false;
     }

@@ -49,8 +49,10 @@ public class Room implements  ITestable{
                 for (HotelService s:hotelserv
                      ) {
                     Service x = s.getService();
-                    if(!(x instanceof VipService))
+                    if(!(x instanceof VipService)) {
+
                         return false;
+                                            }
                 }
             }
         }
@@ -58,6 +60,12 @@ public class Room implements  ITestable{
     }
 
     public static boolean checkAllIntancesConstraints(Model model){
+        for (Room b:model.RoomAllInstances()
+        ) {
+
+            b.checkConstraints();
+
+        }
         return true;
     }
 }

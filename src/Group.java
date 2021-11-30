@@ -61,6 +61,11 @@ public class Group implements  ITestable{
         return true;
     }
     public static boolean checkAllIntancesConstraints(Model model){
+        for (Group c :model.GroupAllInstances()
+        ) {
+            c.checkConstraints();
+
+        }
         return true;
     }
 }
